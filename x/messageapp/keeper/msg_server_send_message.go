@@ -36,7 +36,16 @@ func (k msgServer) SendMessage(goCtx context.Context, msg *types.MsgSendMessage)
 	chat.MessageCount++
 	k.Keeper.SetChat(ctx, chat)
 	
-
+	ctx.EventManager().EmitEvent(
+		sdk.NewEvent(sdk.EventTypeMessage,
+			sdk.NewAttribute(sdk.AttributeKeyModule, types.ModuleName),
+			sdk.NewAttribute(sdk.AttributeKeyAction, types.MessageEventKey),
+			sdk.NewAttribute(types.MessageEventIndex, message.Index),
+			sdk.NewAttribute(types.MessageEventSender, msg.Sender),
+			sdk.NewAttribute(types.MessageEventReceiver, msg.Receiver),
+			sdk.NewAttribute(types.MessageEventBody, msg.Body),
+		),
+	)
 	return &types.MsgSendMessageResponse{
 		ChatId: chat.Index,
 		MessageId: messageCount,

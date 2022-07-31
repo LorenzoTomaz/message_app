@@ -30,4 +30,9 @@ const (
     ChatEventSender = "Sender"
     ChatEventReceiver   = "Receiver"
     ChatEventIndex     = "ChatId"
+	MessageEventKey     = "NewMessageCreated"
+    MessageEventSender = "Sender"
+    MessageEventReceiver   = "Receiver"
+    MessageEventIndex     = "ChatId"
+	MessageEventBody     = "Body"
 )
