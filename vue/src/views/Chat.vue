@@ -187,11 +187,11 @@ export default {
           roomId: 1,
           roomName: "Room 1",
           avatar:
-            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic-ssl.businessinsider.com%2Fimage%2F5e32f2a324306a19834af322-2400%2Fthe-childstar-warsgallery5e3204bdad395.jpg&f=1&nofb=1",
-          unreadCount: 4,
+            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MEAm4ObsVs9b4RP5fkDdvwHaEK%26pid%3DApi&f=1",
+          unreadCount: 0,
           index: 3,
           lastMessage: {
-            content: "Last message received",
+            content: "Hey",
             senderId: 1234,
             username: "John Doe",
             timestamp: "10:20",
@@ -218,7 +218,7 @@ export default {
                 "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MEAm4ObsVs9b4RP5fkDdvwHaEK%26pid%3DApi&f=1",
               status: {
                 state: "offline",
-                lastChanged: "14 July, 20:00",
+                lastChanged: new Date().toDateString(),
               },
             },
           ],
@@ -229,13 +229,13 @@ export default {
         {
           _id: 7890,
           indexId: 12092,
-          content: "Message 1",
-          senderId: 1234,
+          content: "Hey",
+          senderId: 4321,
           username: "John Doe",
           avatar:
-            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fnft-digital-art.com%2Fwp-content%2Fuploads%2F2021%2F04%2Fnft-digital-art.com-what-are-nfts-scaled-e1618106347325-2048x1152.jpeg&f=1&nofb=1",
+            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.MEAm4ObsVs9b4RP5fkDdvwHaEK%26pid%3DApi&f=1",
           date: "13 November",
-          timestamp: "10:20",
+          timestamp: `${new Date().getHours()}:${new Date().getMinutes()}`,
           system: false,
           saved: true,
           distributed: true,
