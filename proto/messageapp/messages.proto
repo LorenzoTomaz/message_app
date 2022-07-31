@@ -8,7 +8,7 @@ message Messages {
   string sender = 2; 
   string receiver = 3; 
   string body = 4; 
-  uint64 chatId = 5; 
+  uint64 chatId = 5;
   
 }
 

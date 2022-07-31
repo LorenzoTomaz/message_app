@@ -5,30 +5,27 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-const TypeMsgSendMessage = "send_message"
+const TypeMsgCreateChat = "create_chat"
 
-var _ sdk.Msg = &MsgSendMessage{}
+var _ sdk.Msg = &MsgCreateChat{}
 
-func NewMsgSendMessage(creator string, sender string, receiver string, body string, chatId string) *MsgSendMessage {
-	return &MsgSendMessage{
+func NewMsgCreateChat(creator string, sender string, receiver string) *MsgCreateChat {
+	return &MsgCreateChat{
 		Creator:  creator,
 		Sender:   sender,
 		Receiver: receiver,
-		Body:     body,
-		ChatId: chatId,
-
 	}
 }
 
-func (msg *MsgSendMessage) Route() string {
+func (msg *MsgCreateChat) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgSendMessage) Type() string {
-	return TypeMsgSendMessage
+func (msg *MsgCreateChat) Type() string {
+	return TypeMsgCreateChat
 }
 
-func (msg *MsgSendMessage) GetSigners() []sdk.AccAddress {
+func (msg *MsgCreateChat) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -36,12 +33,12 @@ func (msg *MsgSendMessage) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgSendMessage) GetSignBytes() []byte {
+func (msg *MsgCreateChat) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgSendMessage) ValidateBasic() error {
+func (msg *MsgCreateChat) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)

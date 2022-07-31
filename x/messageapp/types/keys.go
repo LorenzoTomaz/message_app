@@ -24,3 +24,10 @@ func KeyPrefix(p string) []byte {
 const (
 	ChatCounterKey = "ChatCounter-value-"
 )
+
+const (
+    ChatEventKey     = "NewChatCreated"
+    ChatEventSender = "Sender"
+    ChatEventReceiver   = "Receiver"
+    ChatEventIndex     = "ChatId"
+)

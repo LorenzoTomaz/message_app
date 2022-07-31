@@ -13,6 +13,9 @@ export interface MessageappChat {
   index?: string;
   user?: string;
   receiver?: string;
+
+  /** @format uint64 */
+  messageCount?: string;
 }
 
 export interface MessageappChatCounter {
@@ -30,7 +33,14 @@ export interface MessageappMessages {
   chatId?: string;
 }
 
-export type MessageappMsgSendMessageResponse = object;
+export interface MessageappMsgCreateChatResponse {
+  idValue?: string;
+}
+
+export interface MessageappMsgSendMessageResponse {
+  chatId?: string;
+  messageId?: string;
+}
 
 /**
  * Params defines the parameters for the module.

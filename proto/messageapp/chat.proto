@@ -7,6 +7,7 @@ message Chat {
   string index = 1; 
   string user = 2; 
   string receiver = 3; 
+  uint64 messageCount = 4;
   
 }
 

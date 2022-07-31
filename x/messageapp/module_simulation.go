@@ -28,6 +28,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgSendMessage int = 100
 
+	opWeightMsgCreateChat = "op_weight_msg_create_chat"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgCreateChat int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -71,6 +75,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgSendMessage,
 		messageappsimulation.SimulateMsgSendMessage(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgCreateChat int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgCreateChat, &weightMsgCreateChat, nil,
+		func(_ *rand.Rand) {
+			weightMsgCreateChat = defaultWeightMsgCreateChat
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCreateChat,
+		messageappsimulation.SimulateMsgCreateChat(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

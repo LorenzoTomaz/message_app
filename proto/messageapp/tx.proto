@@ -8,17 +8,31 @@ option go_package = "github.com/LorenzoTomaz/message_app/x/messageapp/types";
 // Msg defines the Msg service.
 service Msg {
       rpc SendMessage(MsgSendMessage) returns (MsgSendMessageResponse);
+  rpc CreateChat(MsgCreateChat) returns (MsgCreateChatResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
 message MsgSendMessage {
-  string creator = 1;
+  string chatId = 1;
   string sender = 2;
   string receiver = 3;
   string body = 4;
+  string creator = 5;
 }
 
 message MsgSendMessageResponse {
+  string chatId = 1;
+  string messageId = 2;
+}
+
+message MsgCreateChat {
+  string creator = 1;
+  string sender = 2;
+  string receiver = 3;
+}
+
+message MsgCreateChatResponse {
+  string idValue = 1;
 }
 
 // this line is used by starport scaffolding # proto/tx/message

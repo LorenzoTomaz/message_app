@@ -12,29 +12,24 @@ import (
 
 var _ = strconv.Itoa(0)
 
-func CmdSendMessage() *cobra.Command {
+func CmdCreateChat() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "send-message [chatId] [sender] [receiver] [body]",
-		Short: "Broadcast message sendMessage",
-		Args:  cobra.ExactArgs(4),
+		Use:   "create-chat [sender] [receiver]",
+		Short: "Broadcast message createChat",
+		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			argChatId := args[0]
-			argSender := args[1]
-			argReceiver := args[2]
-			argBody := args[3]
-			
+			argSender := args[0]
+			argReceiver := args[1]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
-			msg := types.NewMsgSendMessage(
+			msg := types.NewMsgCreateChat(
 				clientCtx.GetFromAddress().String(),
 				argSender,
 				argReceiver,
-				argBody,
-				argChatId,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

@@ -28103,6 +28103,9 @@ paths:
                       type: string
                     receiver:
                       type: string
+                    messageCount:
+                      type: string
+                      format: uint64
               pagination:
                 type: object
                 properties:
@@ -28226,6 +28229,9 @@ paths:
                     type: string
                   receiver:
                     type: string
+                  messageCount:
+                    type: string
+                    format: uint64
         default:
           description: An unexpected error response.
           schema:
@@ -48685,6 +48691,9 @@ definitions:
         type: string
       receiver:
         type: string
+      messageCount:
+        type: string
+        format: uint64
   LorenzoTomaz.messageapp.messageapp.ChatCounter:
     type: object
     properties:
@@ -48705,8 +48714,18 @@ definitions:
       chatId:
         type: string
         format: uint64
+  LorenzoTomaz.messageapp.messageapp.MsgCreateChatResponse:
+    type: object
+    properties:
+      idValue:
+        type: string
   LorenzoTomaz.messageapp.messageapp.MsgSendMessageResponse:
     type: object
+    properties:
+      chatId:
+        type: string
+      messageId:
+        type: string
   LorenzoTomaz.messageapp.messageapp.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -48724,6 +48743,9 @@ definitions:
               type: string
             receiver:
               type: string
+            messageCount:
+              type: string
+              format: uint64
       pagination:
         type: object
         properties:
@@ -48814,6 +48836,9 @@ definitions:
             type: string
           receiver:
             type: string
+          messageCount:
+            type: string
+            format: uint64
   LorenzoTomaz.messageapp.messageapp.QueryGetMessagesResponse:
     type: object
     properties:

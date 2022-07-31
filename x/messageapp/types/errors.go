@@ -8,5 +8,7 @@ import (
 
 // x/messageapp module sentinel errors
 var (
-	ErrSample = sdkerrors.Register(ModuleName, 1100, "sample error")
+	ErrInvalidUser = sdkerrors.Register(ModuleName, 1100, "Invalid user: %s")
+	ErrInvalidReceiver = sdkerrors.Register(ModuleName, 1101, "Invalid receiver: %s")
+	ErrInvalidSender = sdkerrors.Register(ModuleName, 1102, "Invalid sender: %s")
 )

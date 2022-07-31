@@ -5,10 +5,12 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgSendMessage } from "./types/messageapp/tx";
+import { MsgCreateChat } from "./types/messageapp/tx";
 
 
 const types = [
   ["/LorenzoTomaz.messageapp.messageapp.MsgSendMessage", MsgSendMessage],
+  ["/LorenzoTomaz.messageapp.messageapp.MsgCreateChat", MsgCreateChat],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -42,6 +44,7 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
     msgSendMessage: (data: MsgSendMessage): EncodeObject => ({ typeUrl: "/LorenzoTomaz.messageapp.messageapp.MsgSendMessage", value: MsgSendMessage.fromPartial( data ) }),
+    msgCreateChat: (data: MsgCreateChat): EncodeObject => ({ typeUrl: "/LorenzoTomaz.messageapp.messageapp.MsgCreateChat", value: MsgCreateChat.fromPartial( data ) }),
     
   };
 };
