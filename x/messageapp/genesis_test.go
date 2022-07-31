@@ -14,6 +14,17 @@ func TestGenesis(t *testing.T) {
 	genesisState := types.GenesisState{
 		Params: types.DefaultParams(),
 
+		ChatList: []types.Chat{
+			{
+				Index: "0",
+			},
+			{
+				Index: "1",
+			},
+		},
+		ChatCounter: &types.ChatCounter{
+			IdValue: 20,
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -25,5 +36,7 @@ func TestGenesis(t *testing.T) {
 	nullify.Fill(&genesisState)
 	nullify.Fill(got)
 
+	require.ElementsMatch(t, genesisState.ChatList, got.ChatList)
+	require.Equal(t, genesisState.ChatCounter, got.ChatCounter)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

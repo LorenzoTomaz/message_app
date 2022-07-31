@@ -3,6 +3,8 @@ package LorenzoTomaz.messageapp.messageapp;
 
 import "gogoproto/gogo.proto";
 import "messageapp/params.proto";
+import "messageapp/chat.proto";
+import "messageapp/chat_counter.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/LorenzoTomaz/message_app/x/messageapp/types";
@@ -10,5 +12,7 @@ option go_package = "github.com/LorenzoTomaz/message_app/x/messageapp/types";
 // GenesisState defines the messageapp module's genesis state.
 message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
+  repeated Chat chatList = 2 [(gogoproto.nullable) = false];
+  ChatCounter chatCounter = 3;
   // this line is used by starport scaffolding # genesis/proto/state
 }

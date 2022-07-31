@@ -5,6 +5,8 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "messageapp/params.proto";
+import "messageapp/chat.proto";
+import "messageapp/chat_counter.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/LorenzoTomaz/message_app/x/messageapp/types";
@@ -15,7 +17,21 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/LorenzoTomaz/messageapp/messageapp/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a Chat by index.
+	rpc Chat(QueryGetChatRequest) returns (QueryGetChatResponse) {
+		option (google.api.http).get = "/LorenzoTomaz/messageapp/messageapp/chat/{index}";
+	}
+
+	// Queries a list of Chat items.
+	rpc ChatAll(QueryAllChatRequest) returns (QueryAllChatResponse) {
+		option (google.api.http).get = "/LorenzoTomaz/messageapp/messageapp/chat";
+	}
+
+// Queries a ChatCounter by index.
+	rpc ChatCounter(QueryGetChatCounterRequest) returns (QueryGetChatCounterResponse) {
+		option (google.api.http).get = "/LorenzoTomaz/messageapp/messageapp/chat_counter";
+	}
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -27,4 +43,27 @@ message QueryParamsResponse {
   Params params = 1 [(gogoproto.nullable) = false];
 }
 
+message QueryGetChatRequest {
+	  string index = 1;
+
+}
+
+message QueryGetChatResponse {
+	Chat chat = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllChatRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllChatResponse {
+	repeated Chat chat = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetChatCounterRequest {}
+
+message QueryGetChatCounterResponse {
+	ChatCounter ChatCounter = 1 [(gogoproto.nullable) = false];
+}
 // this line is used by starport scaffolding # 3
