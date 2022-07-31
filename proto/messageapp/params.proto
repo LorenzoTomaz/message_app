@@ -1,0 +1,12 @@
+syntax = "proto3";
+package LorenzoTomaz.messageapp.messageapp;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/LorenzoTomaz/message_app/x/messageapp/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+}
