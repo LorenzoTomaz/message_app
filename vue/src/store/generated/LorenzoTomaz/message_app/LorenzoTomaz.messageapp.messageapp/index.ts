@@ -2,10 +2,11 @@ import { txClient, queryClient, MissingWalletError , registry} from './module'
 
 import { Chat } from "./module/types/messageapp/chat"
 import { ChatCounter } from "./module/types/messageapp/chat_counter"
+import { Messages } from "./module/types/messageapp/messages"
 import { Params } from "./module/types/messageapp/params"
 
 
-export { Chat, ChatCounter, Params };
+export { Chat, ChatCounter, Messages, Params };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -47,10 +48,13 @@ const getDefaultState = () => {
 				Chat: {},
 				ChatAll: {},
 				ChatCounter: {},
+				Messages: {},
+				MessagesAll: {},
 				
 				_Structure: {
 						Chat: getStructure(Chat.fromPartial({})),
 						ChatCounter: getStructure(ChatCounter.fromPartial({})),
+						Messages: getStructure(Messages.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
 						
 		},
@@ -103,6 +107,18 @@ export default {
 						(<any> params).query=null
 					}
 			return state.ChatCounter[JSON.stringify(params)] ?? {}
+		},
+				getMessages: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.Messages[JSON.stringify(params)] ?? {}
+		},
+				getMessagesAll: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.MessagesAll[JSON.stringify(params)] ?? {}
 		},
 				
 		getTypeStructure: (state) => (type) => {
@@ -225,6 +241,54 @@ export default {
 				return getters['getChatCounter']( { params: {...key}, query}) ?? {}
 			} catch (e) {
 				throw new Error('QueryClient:QueryChatCounter API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryMessages({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryMessages( key.index)).data
+				
+					
+				commit('QUERY', { query: 'Messages', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryMessages', payload: { options: { all }, params: {...key},query }})
+				return getters['getMessages']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryMessages API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryMessagesAll({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryMessagesAll(query)).data
+				
+					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await queryClient.queryMessagesAll({...query, 'pagination.key':(<any> value).pagination.next_key})).data
+					value = mergeResults(value, next_values);
+				}
+				commit('QUERY', { query: 'MessagesAll', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryMessagesAll', payload: { options: { all }, params: {...key},query }})
+				return getters['getMessagesAll']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryMessagesAll API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},

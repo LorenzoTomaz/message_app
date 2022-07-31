@@ -33,6 +33,14 @@ func TestGenesisState_Validate(t *testing.T) {
 				ChatCounter: &types.ChatCounter{
 					IdValue: 62,
 				},
+				MessagesList: []types.Messages{
+					{
+						Index: "0",
+					},
+					{
+						Index: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -41,6 +49,20 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "duplicated chat",
 			genState: &types.GenesisState{
 				ChatList: []types.Chat{
+					{
+						Index: "0",
+					},
+					{
+						Index: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated messages",
+			genState: &types.GenesisState{
+				MessagesList: []types.Messages{
 					{
 						Index: "0",
 					},

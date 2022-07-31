@@ -7,6 +7,7 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 import "messageapp/params.proto";
 import "messageapp/chat.proto";
 import "messageapp/chat_counter.proto";
+import "messageapp/messages.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/LorenzoTomaz/message_app/x/messageapp/types";
@@ -31,6 +32,16 @@ service Query {
 	rpc ChatCounter(QueryGetChatCounterRequest) returns (QueryGetChatCounterResponse) {
 		option (google.api.http).get = "/LorenzoTomaz/messageapp/messageapp/chat_counter";
 	}
+// Queries a Messages by index.
+	rpc Messages(QueryGetMessagesRequest) returns (QueryGetMessagesResponse) {
+		option (google.api.http).get = "/LorenzoTomaz/messageapp/messageapp/messages/{index}";
+	}
+
+	// Queries a list of Messages items.
+	rpc MessagesAll(QueryAllMessagesRequest) returns (QueryAllMessagesResponse) {
+		option (google.api.http).get = "/LorenzoTomaz/messageapp/messageapp/messages";
+	}
+
 // this line is used by starport scaffolding # 2
 }
 
@@ -66,4 +77,22 @@ message QueryGetChatCounterRequest {}
 message QueryGetChatCounterResponse {
 	ChatCounter ChatCounter = 1 [(gogoproto.nullable) = false];
 }
+message QueryGetMessagesRequest {
+	  string index = 1;
+
+}
+
+message QueryGetMessagesResponse {
+	Messages messages = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllMessagesRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllMessagesResponse {
+	repeated Messages messages = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
 // this line is used by starport scaffolding # 3

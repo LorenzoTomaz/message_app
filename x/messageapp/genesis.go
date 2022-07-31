@@ -17,6 +17,10 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	if genState.ChatCounter != nil {
 		k.SetChatCounter(ctx, *genState.ChatCounter)
 	}
+	// Set all the messages
+	for _, elem := range genState.MessagesList {
+		k.SetMessages(ctx, elem)
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	k.SetParams(ctx, genState.Params)
 }
@@ -32,6 +36,7 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	if found {
 		genesis.ChatCounter = &chatCounter
 	}
+	genesis.MessagesList = k.GetAllMessages(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

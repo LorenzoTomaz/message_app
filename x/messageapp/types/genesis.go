@@ -10,8 +10,11 @@ const DefaultIndex uint64 = 1
 // DefaultGenesis returns the default Capability genesis state
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
-		ChatList:    []Chat{},
-		ChatCounter: nil,
+		ChatList:     []Chat{},
+		ChatCounter:  &ChatCounter{
+				IdValue: uint64(DefaultIndex),
+		},
+		MessagesList: []Messages{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -29,6 +32,16 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("duplicated index for chat")
 		}
 		chatIndexMap[index] = struct{}{}
+	}
+	// Check for duplicated index in messages
+	messagesIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.MessagesList {
+		index := string(MessagesKey(elem.Index))
+		if _, ok := messagesIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for messages")
+		}
+		messagesIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

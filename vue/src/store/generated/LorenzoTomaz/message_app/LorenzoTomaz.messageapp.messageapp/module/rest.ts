@@ -20,6 +20,16 @@ export interface MessageappChatCounter {
   idValue?: string;
 }
 
+export interface MessageappMessages {
+  index?: string;
+  sender?: string;
+  receiver?: string;
+  body?: string;
+
+  /** @format uint64 */
+  chatId?: string;
+}
+
 export type MessageappMsgSendMessageResponse = object;
 
 /**
@@ -42,12 +52,31 @@ export interface MessageappQueryAllChatResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface MessageappQueryAllMessagesResponse {
+  messages?: MessageappMessages[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface MessageappQueryGetChatCounterResponse {
   ChatCounter?: MessageappChatCounter;
 }
 
 export interface MessageappQueryGetChatResponse {
   chat?: MessageappChat;
+}
+
+export interface MessageappQueryGetMessagesResponse {
+  messages?: MessageappMessages;
 }
 
 /**
@@ -381,6 +410,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryChatCounter = (params: RequestParams = {}) =>
     this.request<MessageappQueryGetChatCounterResponse, RpcStatus>({
       path: `/LorenzoTomaz/messageapp/messageapp/chat_counter`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryMessagesAll
+   * @summary Queries a list of Messages items.
+   * @request GET:/LorenzoTomaz/messageapp/messageapp/messages
+   */
+  queryMessagesAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<MessageappQueryAllMessagesResponse, RpcStatus>({
+      path: `/LorenzoTomaz/messageapp/messageapp/messages`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryMessages
+   * @summary Queries a Messages by index.
+   * @request GET:/LorenzoTomaz/messageapp/messageapp/messages/{index}
+   */
+  queryMessages = (index: string, params: RequestParams = {}) =>
+    this.request<MessageappQueryGetMessagesResponse, RpcStatus>({
+      path: `/LorenzoTomaz/messageapp/messageapp/messages/${index}`,
       method: "GET",
       format: "json",
       ...params,

@@ -1,0 +1,14 @@
+syntax = "proto3";
+package LorenzoTomaz.messageapp.messageapp;
+
+option go_package = "github.com/LorenzoTomaz/message_app/x/messageapp/types";
+
+message Messages {
+  string index = 1; 
+  string sender = 2; 
+  string receiver = 3; 
+  string body = 4; 
+  uint64 chatId = 5; 
+  
+}
+

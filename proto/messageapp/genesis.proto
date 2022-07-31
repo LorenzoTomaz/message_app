@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "messageapp/params.proto";
 import "messageapp/chat.proto";
 import "messageapp/chat_counter.proto";
+import "messageapp/messages.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/LorenzoTomaz/message_app/x/messageapp/types";
@@ -14,5 +15,6 @@ message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
   repeated Chat chatList = 2 [(gogoproto.nullable) = false];
   ChatCounter chatCounter = 3;
+  repeated Messages messagesList = 4 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }
